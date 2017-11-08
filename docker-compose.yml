@@ -1,0 +1,29 @@
+web:
+  build: ./app
+  command: python app.py
+  ports:
+    - "4000:4000"
+  volumes:
+    - .:/arenahelper/app
+  environment:
+    PYTHONUNBUFFERED: 0
+    MONGODB_HOST: db
+    APIURL: "https://{}.api.battle.net/wow/"
+    APIKEY: "573b7tcw64yrafjp4qbj5rhh5ujpzdga"
+    APPURL: "0.0.0.0:4000/graphql"
+  links:
+    - db
+ui:
+    build: ./ui
+    command: "npm start"
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/arenahelper/ui
+
+db:
+  image: mongo:3.4.9
+  ports:
+    - "27017:27017"
+  volumes:
+    - 'db:/data/db'
