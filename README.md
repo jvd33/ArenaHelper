@@ -31,7 +31,7 @@
 ##### (Dev) After adding a new dependency
 * `pip freeze > requirements.txt`
 
-app.py is the Flask app and main entry point
+app.py is the Flask app and main entry point, UI is a React application
 
 To build and run:
 
