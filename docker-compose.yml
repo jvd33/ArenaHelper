@@ -20,7 +20,7 @@ ui:
       - "5000:5000"
     volumes:
       - .:/arenahelper/ui
-
+    
 db:
   image: mongo:3.4.9
   ports:
