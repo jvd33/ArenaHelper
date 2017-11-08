@@ -1,0 +1,7 @@
+*.swp
+*/npm-debug.log
+ui/node_modules
+ui/dist
+*/venv
+*/.idea
+*/__pycache__
