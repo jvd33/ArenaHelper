@@ -48,7 +48,7 @@ class MongoManager:
     def resolve_all(self, obj):
         id = obj.to_mongo()['_id']
         result = self.resolve_object(obj)
-        print(dumps({"ObjectId(""{}"")".format(str(id)): result}))
+        return result
 
     # Gets full player data for an individual player
     def get_player(self, player_name, realm_name, resolve_refs=False):
@@ -56,7 +56,7 @@ class MongoManager:
         query = me.Q(name=player_name) & me.Q(realm=realm)
         if resolve_refs:
             player = mm.Player.objects(query).first()
-            self.resolve_all(player)
+            return self.resolve_all(player)
         return mm.Player.objects(query).first()
 
     # Updates an individual player with fresh armory data
