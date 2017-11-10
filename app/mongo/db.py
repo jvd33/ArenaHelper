@@ -21,8 +21,8 @@ class MongoManager:
     def purge_ladders(self):
         pmc = pm.MongoClient(self.host, 27017)
         db = pmc['arenahelper']
-        ladders = [l for l in db['pvp_ladder'].find({})]
-        db['pvp_ladder'].remove({"_id": {'$in': [i['_id'] for i in ladders]}})
+        ladders = [l for l in db['pvpladder'].find({})]
+        db['pvpladder'].remove({"_id": {'$in': [i['_id'] for i in ladders]}})
         if ladders:
             db['old_ladders'].insert_many(ladders)
 
@@ -48,6 +48,23 @@ class MongoManager:
     def resolve_all(self, obj):
         result = self.resolve_object(obj)
         return result.to_dict()
+
+    # Gets an entire arena ladder page
+    def get_ladder(self, bracket, page=1, per_page=30):
+        skip = (page-1)*per_page
+        pmc = pm.MongoClient(self.host, 27017)
+        db = pmc['arenahelper']
+        x = db['pvpladder'].find_one({"bracket": bracket}, {"players": {"$slice": [skip, per_page]}})
+        return x
+
+    # Gets the faction of a specific player for ladder display, not included in ladder API call
+    def get_player_faction(self, player_name, realm_name):
+        realm = mm.Realm.objects(name=realm_name).first()
+        query = me.Q(name=player_name) & me.Q(realm=realm)
+        player = mm.Player.objects(query).first()
+        if player:
+            return player.faction
+        return "N/A"
 
     # Gets full player data for an individual player
     def get_player(self, player_name, realm_name, resolve_refs=False):
