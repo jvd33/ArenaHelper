@@ -1,6 +1,6 @@
-from app.gqlschema.models import *
+from gqlschema.models import Player, PvPLadder, construct
 import graphene as gql
-from app.mongo import db
+from mongo import db
 
 mongodb = db.MongoManager()
 
@@ -10,6 +10,10 @@ class Query(gql.ObjectType):
     ladder = gql.Field(PvPLadder, bracket=gql.String())
 
     def resolve_player(self, info, name, realm):
-        return construct(Player, mongodb.get_player(name, realm))
+        return mongodb.get_player(name, realm)
+
+    def resolve_ladder(self, info, bracket):
+        pass
 
 schema = gql.Schema(query=Query)
+

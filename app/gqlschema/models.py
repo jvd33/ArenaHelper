@@ -7,10 +7,24 @@ GraphQL models from the DB, same as the mongdb models for the most part
 
 
 def construct(object_type, doc):
+    print(doc)
     field_names = [f for f in object_type._meta.fields]
+    print(field_names)
+    for attr, val in doc.items():
+        print(attr, val)
     kwargs = {attr: val for attr, val in doc.items()
             if attr in field_names}
     return object_type(**kwargs)
+
+
+class Realm(gql.ObjectType):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+    name = gql.String()
+    realm_type = gql.String()
+    battlegroup = gql.String()
+    timezone = gql.String()
+    display_name = gql.String()
 
 
 class Race(gql.ObjectType):
@@ -44,7 +58,7 @@ class Item(gql.ObjectType):
     name = gql.String()
     slot = gql.String()
     item_level = gql.Int()
-    icon = gql.Int()
+    icon = gql.String()
 
 
 class PlayerClass(gql.ObjectType):
@@ -64,7 +78,7 @@ class TalentTree(gql.ObjectType):
     spec_role = gql.String()
     icon = gql.String()
     order = gql.String()
-    talents = gql.List(gql.Field(Talent))
+    talents = gql.List(Talent)
     class_name = gql.String()
     spec_id = gql.Int()
     spec_order = gql.String()
@@ -73,29 +87,19 @@ class TalentTree(gql.ObjectType):
     uid = gql.String()
 
 
-class Realm(gql.ObjectType):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-    name = gql.String()
-    realm_type = gql.String()
-    battlegroup = gql.String()
-    timezone = gql.String()
-    display_name = gql.String()
-
-
 class Player(gql.ObjectType):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
     name = gql.String()
     realm = gql.Field(Realm)
-    player_class = gql.Field(PlayerClass)
-    player_spec = gql.Field(TalentTree)
+    player_class = PlayerClass
+    player_spec = TalentTree
     player_gender = gql.String()
     faction = gql.String()
     guild = gql.String()
-    items = gql.List(gql.Field(Item))
+    items = gql.List(Item)
     professions = gql.JSONString()
-    talents = gql.List(gql.Field(TalentTree))
+    talents = gql.List(TalentTree)
     title = gql.String()
     achievement_points = gql.Int()
     race = gql.Field(Race)
@@ -127,5 +131,5 @@ class PvPLadder(gql.ObjectType):
     bracket = gql.String()
     page = gql.Int()
     per_page = gql.Int()
-    player = gql.List(gql.Field(PvPLadderPlayer))
+    player = gql.List(PvPLadderPlayer)
     fetch_date = DateTime()

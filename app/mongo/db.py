@@ -4,7 +4,7 @@ from mongoengine.errors import NotUniqueError
 import pymongo as pm
 import os
 from bson import ObjectId
-from bson.json_util import dumps
+import bson
 
 """
 MongoDB Management Class. Responsible for all interaction with the underlying document store
@@ -46,9 +46,8 @@ class MongoManager:
 
     # Completes the document by resolving all ObjectId references into embedded documents for API calls
     def resolve_all(self, obj):
-        id = obj.to_mongo()['_id']
         result = self.resolve_object(obj)
-        return result
+        return result.to_dict()
 
     # Gets full player data for an individual player
     def get_player(self, player_name, realm_name, resolve_refs=False):

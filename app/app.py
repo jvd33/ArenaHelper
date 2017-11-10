@@ -1,6 +1,6 @@
 from api.data_client import DataClient
+from gqlschema import schema
 from api.arena_client import ArenaClient
-import gqlschema.schema as schema
 from jobs.startup import StartupJob
 from mongo.db import MongoManager
 from flask import Flask
@@ -25,6 +25,6 @@ if __name__ == "__main__":
     startup = StartupJob()
     db = MongoManager()
     #startup.seed()
-    print(db.get_player("Aviro", "Thrall", True))
+    print(dict(db.get_player("Aviro", "Thrall", True)))
     app.run(host='0.0.0.0', port=4000)
     # startup.seed()

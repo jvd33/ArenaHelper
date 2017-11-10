@@ -383,8 +383,10 @@ class Player(Doc):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if kwargs:
+            genders = ["Male", "Female"]
             self.faction = "alliance" if kwargs['faction'] == 0 else "horde"
-            self.player_gender = "Male" if kwargs['player_gender'] == 0 else 'Female'
+            if self.player_gender not in genders:
+                self.player_gender = "Male" if kwargs['player_gender'] == 0 else 'Female'
 
     @staticmethod
     def mappings():
