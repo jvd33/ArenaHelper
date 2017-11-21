@@ -31,10 +31,8 @@ class PvPLadder extends Component {
     };
 
     static defaultProps = {
-        data: { ladder: {} },
+        data: { ladder: {}, loading: true },
     };
-
-    static initialized = true;
 
     constructor() {
         super();
@@ -42,11 +40,19 @@ class PvPLadder extends Component {
 
     render() {
         const {
-            data: { ladder, loading }
+            data,
         } = this.props;
+        if(data.loading) {
+            return ( <div>Loading</div> );
+        }
         return (
-            <div className="pvpladder">
-                {ladder}
+            <div>
+                <h1>US {data.ladder.bracket} Ladder </h1>
+                <div className="col">
+                    { data.ladder.players.map((player, index) => (
+                        <LadderPlayer key={index} {...player} index={index} />
+                    ))}
+                </div>
             </div>
         );
     }
