@@ -1,0 +1,20 @@
+query Ladder($bracket: String!) {
+    ladder(bracket: $bracket) {
+        bracket
+        players {
+            rank
+            rating
+            name
+            realmName
+            raceId
+            classId
+            specId
+            faction
+            seasonWins
+            seasonLosses
+            weeklyWins
+            weeklyLosses
+        }
+        fetchDate
+    }
+}
