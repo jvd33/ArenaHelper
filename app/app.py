@@ -5,9 +5,11 @@ from jobs.startup import StartupJob
 from mongo.db import MongoManager
 from flask import Flask
 from flask_graphql import GraphQLView
+from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 
 app.add_url_rule(

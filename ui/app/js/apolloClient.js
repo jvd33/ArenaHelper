@@ -5,6 +5,9 @@ import { ApolloClient } from 'apollo-client';
 const client = new ApolloClient({
     link: createHttpLink({
         uri: 'http://localhost:4000/graphql',
+        opts: {
+            mode: 'no-cors',
+        },
     }),
     cache: new InMemoryCache({
         dataIdFromObject: o => o.Id,

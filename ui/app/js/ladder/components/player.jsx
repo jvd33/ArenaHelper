@@ -13,18 +13,18 @@ const LadderPlayer = ({ player }) => (
 
 LadderPlayer.propTypes = {
     player: PropTypes.shape({
-        rank: PropTypes.string,
-        rating: PropTypes.string,
+        rank: PropTypes.number,
+        rating: PropTypes.number,
         name: PropTypes.string,
         realmName: PropTypes.string,
-        raceId: PropTypes.string,
-        classId: PropTypes.string,
-        specId: PropTypes.string,
+        raceId: PropTypes.number,
+        classId: PropTypes.number,
+        specId: PropTypes.number,
         faction: PropTypes.string,
-        seasonWins: PropTypes.string,
-        seasonLosses: PropTypes.string,
-        weeklyWins: PropTypes.string,
-        weeklyLosses: PropTypes.string,
+        seasonWins: PropTypes.number,
+        seasonLosses: PropTypes.number,
+        weeklyWins: PropTypes.number,
+        weeklyLosses: PropTypes.number,
     })
 }
 export default LadderPlayer;

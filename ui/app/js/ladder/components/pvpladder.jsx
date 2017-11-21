@@ -6,18 +6,18 @@ import LadderPlayer from 'ladder/components/player';
 const LadderProps = PropTypes.shape({
     bracket: PropTypes.string,
     players: PropTypes.arrayOf(PropTypes.shape({
-        rank: PropTypes.string,
-        rating: PropTypes.string,
+        rank: PropTypes.number,
+        rating: PropTypes.number,
         name: PropTypes.string,
         realmName: PropTypes.string,
-        raceId: PropTypes.string,
-        classId: PropTypes.string,
-        specId: PropTypes.string,
+        raceId: PropTypes.number,
+        classId: PropTypes.number,
+        specId: PropTypes.number,
         faction: PropTypes.string,
-        seasonWins: PropTypes.string,
-        seasonLosses: PropTypes.string,
-        weeklyWins: PropTypes.string,
-        weeklyLosses: PropTypes.string,
+        seasonWins: PropTypes.number,
+        seasonLosses: PropTypes.number,
+        weeklyWins: PropTypes.number,
+        weeklyLosses: PropTypes.number,
     })),
     fetchDate: PropTypes.string,
 });
@@ -46,7 +46,7 @@ class PvPLadder extends Component {
         } = this.props;
         return (
             <div className="pvpladder">
-                {data.ladder}
+                {ladder}
             </div>
         );
     }
