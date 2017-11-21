@@ -14,7 +14,7 @@ const PvPLadders = () => (
         <div className="tab-content">
             <div id="2v2" className="tab-pane active">
                 <div className="col">
-                    <DisplayLadder key="2v2" bracket="2v2" />
+                    <DisplayLadder key="2v2" bracket="2v2" page="1" />
                 </div>
             </div>
         </div>

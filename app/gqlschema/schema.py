@@ -21,6 +21,7 @@ class Query(gql.ObjectType):
             p.faction = mongodb.get_player_faction(p.name, p.realm_name)
             players.append(p)
         ladder.players = players
+        ladder.page = page
         return ladder
 
 
