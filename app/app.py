@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     startup = StartupJob()
     db = MongoManager()
-    #startup.seed()
-    print(dict(db.get_player("Aviro", "Thrall", True)))
+    startup.seed()
+    #print(dict(db.get_player("Aviro", "Thrall", True)))
+    print("GraphQL running on localhost:4000")
     app.run(host='0.0.0.0', port=4000)
-    # startup.seed()

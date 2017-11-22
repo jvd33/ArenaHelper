@@ -1,5 +1,5 @@
-query Ladder($bracket: String!) {
-    ladder(bracket: $bracket) {
+query Ladder($bracket: String!, $page: Int!) {
+    ladder(bracket: $bracket, page: $page) {
         bracket
         players {
             rank

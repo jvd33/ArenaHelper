@@ -63,6 +63,9 @@ class MongoManager:
         query = me.Q(name=player_name) & me.Q(realm=realm)
         player = mm.Player.objects(query).first()
         if player:
+            print(player.to_mongo())
+            print(player.name)
+            print(player.faction)
             return player.faction
         return "N/A"
 

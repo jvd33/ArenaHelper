@@ -21,11 +21,14 @@ class ArenaClient(client.APIClient):
         self.db = MongoManager()
 
     # Sends a request that gets a specific PvP ladder by locale
-    def get_pvp_ladder(self, bracket):
+    def get_pvp_ladder(self, bracket, get_players=False):
         url = self.endpoints[bracket]
         payload = {'locale': self.locale}
         json = self.make_request(url, payload)
         json.update({'bracket': bracket, 'locale': self.locale, 'fetch_date': datetime.now()})
+        if get_players:
+            for row in json['rows'][:100]:
+                self.get_player(row['name'], row['realmName'])
         self.db.insert_ladder(json)
 
     # Sends a request that gets PvP stats for a specific player

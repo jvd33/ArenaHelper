@@ -22,7 +22,7 @@ const LadderProps = PropTypes.shape({
     fetchDate: PropTypes.string,
 });
 
-class Button extends React.Component {
+class Button extends Component {
     static propTypes = {
         onClick: PropTypes.func,
         title: PropTypes.string,
@@ -33,7 +33,7 @@ class Button extends React.Component {
     render() {
         const { onClick, title } = this.props;
         return (
-            <button type="button" className="btn btn-primary" onClick={onClick} title={title}/>
+            <button type="button" className="btn btn-primary" onClick={onClick}>{title}</button>
         );
     }
 }
@@ -54,18 +54,36 @@ class PvPLadder extends Component {
 
     constructor() {
         super();
+        this.currPage = "1";
+        this.reset = this.reset.bind(this);
+        this.next = this.next.bind(this);
+        this.back = this.back.bind(this);
     }
 
     next() {
-
+        const {
+            data,
+        } = this.props;
+        var newPage = (parseInt(this.currPage) + 1).toString();
+        this.currPage = newPage;
+        data.refetch({ bracket: data.ladder.bracket, page:newPage});
     }
 
     back() {
-
+        const {
+            data,
+        } = this.props;
+        var newPage = (parseInt(this.currPage) - 1).toString();
+        this.currPage = newPage;
+        data.refetch({ bracket: data.ladder.bracket, page:newPage });
     }
 
     reset() {
-
+        const {
+            data,
+        } = this.props;
+        this.currPage = "1";
+        data.refetch({ bracket: data.ladder.bracket, page:"1" });
     }
 
     renderButtons() {
@@ -74,19 +92,19 @@ class PvPLadder extends Component {
             page
         } = this.props;
         let buttons = null;
-        if(page <= 1) {
-            buttons = [ new Button({onClick: this.next, title: "next"}),
+        if(parseInt(this.currPage) <= 1) {
+            buttons = [ {onClick: this.next, title: "next"},
             ];
         } else if(data.ladder.players.length < 30) {
             buttons = [
-                new Button({onClick: this.reset, title: "page one"}),
-                new Button({onClick: this.back, title: "back"}),
+                {onClick: this.reset, title: "page one"},
+                {onClick: this.back, title: "back"},
             ];
         } else {
             buttons = [
-                new Button({onClick: this.next, title: "page one"}),
-                new Button({onClick: this.next, title: "back"}),
-                new Button({onClick: this.next, title: "next"}),
+                {onClick: this.reset, title: "page one"},
+                {onClick: this.back, title: "back"},
+                {onClick: this.next, title: "next"},
             ];
         }
 
@@ -104,21 +122,20 @@ class PvPLadder extends Component {
         }
         return (
             <div>
-                <h1>US {data.ladder.bracket} Ladder </h1>
-                <h4>Last Updated: {new Date(data.ladder.fetchDate).toDateString()}</h4>
                 <div className="col">
                     { data.ladder.players.map((player, index) => (
-                        <LadderPlayer key={index} {...player} index={(parseInt(page-1)*30)+index} />
+                        <LadderPlayer key={index} {...player} index={(parseInt(this.currPage-1)*30)+index} />
                     ))}
                 </div>
                 <div className="col" id="pages">
                     <div className="row">
                         { this.renderButtons().map((button, i) => (
-                                <Button key={i} onClick={button.onClick} title={button.title} />
+                                <Button key={i} {...button} />
                             ))
                         }
                     </div>
                 </div>
+                <span>Last Updated: {new Date(data.ladder.fetchDate).toDateString()}</span>
             </div>
         );
     }
